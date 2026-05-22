@@ -69,7 +69,7 @@ const images = [
 const markup = images
   .map(
     image => `<li class="gallery-item">
-  <a class="gallery-link" href="large-image.jpg">
+  <a class="gallery-link" href='${image.original}'>
     <img
       class="gallery-image"
       src='${image.preview}'
@@ -82,3 +82,16 @@ const markup = images
   .join('');
 
 gallery.insertAdjacentHTML('beforeend', markup);
+
+gallery.addEventListener('click', event => {
+  event.preventDefault();
+  if (event.target.nodeName !== 'IMG') {
+    return;
+  }
+  const instance = basicLightbox.create(`
+    <div class="modal">
+        <img src="${event.target.dataset.source}" alt="" />
+    </div>
+`);
+  instance.show();
+});
